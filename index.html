@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>CHLS9 - Chromohelios Token</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #0b1020;
+      --accent: #f5c84c;
+      --accent-soft: #f5c84c22;
+      --text: #f5f5f5;
+      --muted: #a0a0b5;
+      --danger: #ff4d4d;
+      --card: #111827;
+      --border: #1f2937;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #050816 45%, #02010a 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #fff7d6, #f5c84c, #f97316);
+      box-shadow: 0 0 18px #f5c84c66;
+    }
+    .logo-text {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    nav {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    nav a:hover { color: var(--accent); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 56px;
+    }
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; }
+    }
+    .hero-title {
+      font-size: 40px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero-title span {
+      background: linear-gradient(120deg, #f5c84c, #f97316, #facc15);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #020617aa;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .badge-accent {
+      border-color: var(--accent-soft);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .btn {
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 14px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text);
+    }
+    .btn-primary {
+      background: linear-gradient(120deg, #f5c84c, #f97316);
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 0 18px #f5c84c55;
+    }
+    .btn-outline {
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    .hero-meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top, #1f2937 0, #020617 60%);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 40px #000000aa;
+    }
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .hero-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .hero-card-body {
+      background: #020617aa;
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid #1e293b;
+      margin-bottom: 14px;
+    }
+    .hero-stat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .hero-progress {
+      height: 6px;
+      border-radius: 999px;
+      background: #020617;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .hero-progress-inner {
+      height: 100%;
+      width: 32%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #f97316, #f5c84c);
+      box-shadow: 0 0 12px #f9731688;
+    }
+    .hero-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .section-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    @media (max-width: 900px) {
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 16px;
+      font-size: 14px;
+    }
+    .card h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .muted { color: var(--muted); }
+
+    .tokenomics-grid {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .tokenomics-grid { grid-template-columns: 1fr; }
+    }
+    .tokenomics-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .tokenomics-table th,
+    .tokenomics-table td {
+      padding: 6px 4px;
+      border-bottom: 1px solid #1f2937;
+    }
+    .tokenomics-table th {
+      text-align: left;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      font-size: 13px;
+    }
+    @media (max-width: 900px) {
+      .roadmap { grid-template-columns: 1fr 1fr; }
+    }
+    .roadmap-item {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 12px;
+    }
+    .roadmap-item h4 {
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    footer {
+      border-top: 1px solid #111827;
+      margin-top: 40px;
+      padding-top: 16px;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 12px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55eaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo">
+        <div class="logo-circle"></div>
+        <div class="logo-text">CHLS9</div>
+      </div>
+      <nav>
+        <a href="#vision">Vision</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="#presale">Pre-sale</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="hero-title">
+            Chromohelios<br />
+            <span>La lumière sur Solana.</span>
+          </div>
+          <p class="hero-sub">
+            CHLS9 est un token SPL conçu pour l’énergie, la lumière et l’intelligence des marchés.
+            Une tokenomics transparente, une pre-sale sécurisée, une liquidité verrouillée.
+          </p>
+          <div class="hero-badges">
+            <div class="badge badge-accent">Token SPL — Solana</div>
+            <div class="badge">LP verrouillée 12 mois</div>
+            <div class="badge">Vesting anti-dump</div>
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary">Participer à la Pre-sale</button>
+            <button class="btn btn-outline">Lire le Whitepaper</button>
+          </div>
+          <div class="hero-meta">
+            Mint : <code>EffrWV33wCbHNXbTJ7T7H5AsfxuXjB7wACHgM6JAGYd6</code>
+          </div>
+        </div>
+
+        <aside class="hero-card" id="presale">
+          <div class="hero-card-header">
+            <div class="hero-card-title">Pre-sale CHLS9</div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              En préparation
+            </div>
+          </div>
+          <div class="hero-card-body">
+            <div class="hero-stat-row">
+              <span>Objectif</span>
+              <span>20 SOL</span>
+            </div>
+            <div class="hero-stat-row">
+              <span>Allocations</span>
+              <span>100 (0.1 SOL chacune)</span>
+            </div>
+            <div class="hero-stat-row">
+              <span>Prix listing</span>
+              <span>+20 % vs pre-sale</span>
+            </div>
+            <div class="hero-progress">
+              <div class="hero-progress-inner"></div>
+            </div>
+          </div>
+          <div class="hero-card-footer">
+            <span>Vesting : 14j cliff + 90j linéaire</span>
+            <span>LP : verrouillée 12 mois</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="vision">
+        <h2 class="section-title">Vision & Fondations</h2>
+        <p class="section-sub">
+          Chromohelios (CHLS9) s’inspire de la dynamique solaire : flux, cycles, énergie.
+          Le token est conçu comme un noyau autour duquel gravitent outils, analyses et mécanismes de marché.
+        </p>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Énergie & Lumière</h3>
+            <p class="muted">
+              CHLS9 symbolise la lumière : transparence des flux, clarté des règles, lisibilité de la tokenomics.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Architecture Solana</h3>
+            <p class="muted">
+              Un token SPL optimisé pour la vitesse, les frais réduits et l’intégration avec l’écosystème Solana.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Prévisibilité & Discipline</h3>
+            <p class="muted">
+              Vesting strict, LP verrouillée, multisig : la structure protège le projet autant que les participants.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="tokenomics">
+        <h2 class="section-title">Tokenomics</h2>
+        <p class="section-sub">
+          Une répartition pensée pour l’équilibre entre liquidité, développement, communauté et stabilité à long terme.
+        </p>
+        <div class="tokenomics-grid">
+          <div class="card">
+            <h3>Résumé</h3>
+            <p class="muted">
+              Supply totale : <strong>100 000 000 CHLS9</strong><br />
+              Circulation initiale limitée pour protéger le prix au lancement.
+            </p>
+            <ul class="muted" style="margin-top: 10px; padding-left: 18px; font-size: 13px;">
+              <li>Pre-sale : 10 %</li>
+              <li>Liquidité initiale : 5 %</li>
+              <li>Team (vesting) : 10 %</li>
+              <li>Développement : 10 %</li>
+              <li>Marketing : 10 %</li>
+              <li>Réserve stratégique : 15 %</li>
+              <li>Airdrop / Communauté : 10 %</li>
+              <li>Burn / Anti-inflation : 30 %</li>
+            </ul>
+          </div>
+          <div class="card">
+            <table class="tokenomics-table">
+              <thead>
+                <tr>
+                  <th>Allocation</th>
+                  <th>%</th>
+                  <th>Quantité</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Pre-sale</td><td>10 %</td><td>10 000 000</td></tr>
+                <tr><td>Liquidité initiale</td><td>5 %</td><td>5 000 000</td></tr>
+                <tr><td>Team (vesting)</td><td>10 %</td><td>10 000 000</td></tr>
+                <tr><td>Développement</td><td>10 %</td><td>10 000 000</td></tr>
+                <tr><td>Marketing</td><td>10 %</td><td>10 000 000</td></tr>
+                <tr><td>Réserve stratégique</td><td>15 %</td><td>15 000 000</td></tr>
+                <tr><td>Airdrop / Communauté</td><td>10 %</td><td>10 000 000</td></tr>
+                <tr><td>Burn / Anti-inflation</td><td>30 %</td><td>30 000 000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Sécurité & Mécanismes</h2>
+        <p class="section-sub">
+          La structure de CHLS9 est pensée pour éviter les scénarios classiques de perte de liquidité, de dump massif ou de rug.
+        </p>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Multisig</h3>
+            <p class="muted">
+              Les fonds de la pre-sale sont reçus dans un multisig (Squads), avec seuil de signatures.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Vesting</h3>
+            <p class="muted">
+              Acheteurs : cliff 14 jours, vesting 90 jours. Team : cliff 30 jours, vesting 12 mois.
+            </p>
+          </div>
+          <div class="card">
+            <h3>LP Lock</h3>
+            <p class="muted">
+              Les LP tokens de la pool Raydium sont verrouillés 12 mois pour garantir la liquidité.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="roadmap">
+        <h2 class="section-title">Roadmap</h2>
+        <p class="section-sub">
+          Une progression claire, du lancement technique à la consolidation de l’écosystème.
+        </p>
+        <div class="roadmap">
+          <div class="roadmap-item">
+            <h4>Phase 1 — Pré-lancement</h4>
+            <p class="muted">
+              Setup technique, tokenomics, site, whitepaper, communication initiale.
+            </p>
+          </div>
+          <div class="roadmap-item">
+            <h4>Phase 2 — Pre-sale</h4>
+            <p class="muted">
+              Vente des allocations, collecte des fonds, configuration du vesting.
+            </p>
+          </div>
+          <div class="roadmap-item">
+            <h4>Phase 3 — Lancement</h4>
+            <p class="muted">
+              Création de la pool Raydium, LP lock, listing Jupiter.
+            </p>
+          </div>
+          <div class="roadmap-item">
+            <h4>Phase 4 — Expansion</h4>
+            <p class="muted">
+              Airdrops, partenariats, outils, intégrations, burn program.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© CHLS9 — Chromohelios Token — Solana</div>
+      <div class="footer-links">
+        <a href="#">Whitepaper</a>
+        <a href="#">Discord</a>
+        <a href="#">X (Twitter)</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
