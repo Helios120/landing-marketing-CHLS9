@@ -1,0 +1,12 @@
+{
+  "sales": [],
+  "vesting": [],
+  "liquidity": {
+    "poolCreated": false,
+    "lpLocked": false
+  },
+  "multisig": {
+    "created": false,
+    "members": []
+  }
+}
