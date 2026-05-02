@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>CHLS9 Admin - Pre-sale Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --card-alt: #030712;
+      --border: #1f2937;
+      --accent: #f5c84c;
+      --accent-soft: #f5c84c22;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --danger: #f97373;
+      --success: #4ade80;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+      color: var(--text);
+    }
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55eaa;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 2.2fr 1.8fr;
+      gap: 18px;
+    }
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 14px;
+      font-size: 13px;
+    }
+    .card h2 {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .muted { color: var(--muted); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .stat {
+      background: var(--card-alt);
+      border-radius: 10px;
+      border: 1px solid #111827;
+      padding: 8px;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .stat-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .progress {
+      margin-top: 8px;
+    }
+    .progress-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: #020617;
+      overflow: hidden;
+    }
+    .progress-inner {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #f97316, #f5c84c);
+      box-shadow: 0 0 12px #f9731688;
+      transition: width 0.3s ease;
+    }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+    .form-row label {
+      font-size: 11px;
+      color: var(--muted);
+      flex: 1;
+    }
+    .form-row input {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid #111827;
+      background: #020617;
+      color: var(--text);
+      font-size: 12px;
+    }
+    .btn {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text);
+    }
+    .btn-primary {
+      background: linear-gradient(120deg, #f5c84c, #f97316);
+      color: #111827;
+      font-weight: 600;
+    }
+    .btn-outline {
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    .btn-danger {
+      border-color: #7f1d1d;
+      color: var(--danger);
+    }
+
+    .list {
+      margin-top: 8px;
+      border-radius: 10px;
+      border: 1px solid #111827;
+      background: #020617;
+      max-height: 180px;
+      overflow: auto;
+    }
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 8px;
+      border-bottom: 1px solid #020617;
+      font-size: 12px;
+    }
+    .list-item:last-child {
+      border-bottom: none;
+    }
+    .pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      border: 1px solid #1f2937;
+      color: var(--muted);
+    }
+    .pill-success {
+      border-color: #14532d;
+      color: var(--success);
+    }
+    .pill-warn {
+      border-color: #7f1d1d;
+      color: var(--danger);
+    }
+
+    .actions-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+    .action-row code {
+      font-size: 11px;
+      background: #020617;
+      border-radius: 6px;
+      padding: 4px 6px;
+      border: 1px solid #111827;
+      color: var(--muted);
+      flex: 1;
+      overflow-x: auto;
+    }
+
+    footer {
+      margin-top: 24px;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div>
+        <div class="title">CHLS9 — Dashboard Admin</div>
+        <div class="subtitle">Gestion de la pre-sale, vesting, liquidité et scripts.</div>
+      </div>
+      <div class="tag">
+        <span class="tag-dot"></span>
+        Mode local (front-only)
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <div class="card-header">
+          <h2>Vue d’ensemble Pre-sale</h2>
+          <span class="muted">Simulation locale</span>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-label">Objectif</div>
+            <div class="stat-value" id="target-sol">20 SOL</div>
+            <div class="stat-sub">Fixé</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Collecté</div>
+            <div class="stat-value" id="raised-sol">0 SOL</div>
+            <div class="stat-sub" id="raised-alloc">0 / 100 allocations</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Prix allocation</div>
+            <div class="stat-value">0.1 SOL</div>
+            <div class="stat-sub">Candy Machine</div>
+          </div>
+        </div>
+
+        <div class="progress">
+          <div class="progress-bar">
+            <div class="progress-inner" id="progress-bar"></div>
+          </div>
+          <div class="progress-meta">
+            <span id="progress-label">0 % atteint</span>
+            <span>LP : 70 % / Trésorerie : 30 %</span>
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-top: 14px;">
+          <label>
+            Simuler une allocation vendue (wallet)
+            <input type="text" id="sim-wallet" placeholder="Adresse wallet (fake ou réelle)" />
+          </label>
+          <label>
+            Quantité CHLS9
+            <input type="number" id="sim-amount" value="100000" />
+          </label>
+        </div>
+        <button class="btn btn-primary" id="btn-add-sale">Ajouter une vente simulée</button>
+
+        <div class="list" id="sales-list" style="margin-top: 10px;">
+          <!-- lignes simulées -->
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Actions & Scripts</h2>
+          <span class="muted">À exécuter côté terminal</span>
+        </div>
+
+        <div class="actions-grid">
+          <div class="action-row">
+            <span>Créer la Candy Machine</span>
+            <code>metaplex create_candy_machine --price 0.1 --number 100 --solTreasuryAccount ADRESSE_MULTISIG</code>
+          </div>
+          <div class="action-row">
+            <span>Lancer la pre-sale</span>
+            <code>metaplex update_candy_machine --goLiveDate "now"</code>
+          </div>
+          <div class="action-row">
+            <span>Créer un stream de vesting</span>
+            <code>streamflow create --recipient WALLET --token-mint EffrWV33wCbHNXbTJ7T7H5AsfxuXjB7wACHgM6JAGYd6 --amount 100000 --start ...</code>
+          </div>
+          <div class="action-row">
+            <span>Créer la pool Raydium</span>
+            <code>raydium create-pool --mint0 EffrWV33wCbHNXbTJ7T7H5AsfxuXjB7wACHgM6JAGYd6 --mint1 So1111... --amount0 1000000 --amount1 1</code>
+          </div>
+          <div class="action-row">
+            <span>Créer le multisig Squads</span>
+            <code>squads create --threshold 3 --members WALLET1 WALLET2 WALLET3 WALLET4 WALLET5</code>
+          </div>
+        </div>
+
+        <div style="margin-top: 16px;">
+          <h2 style="font-size: 14px; margin-bottom: 6px;">État de sécurité</h2>
+          <div class="list">
+            <div class="list-item">
+              <span>Multisig créé</span>
+              <span class="pill pill-warn">À vérifier</span>
+            </div>
+            <div class="list-item">
+              <span>LP lock configuré</span>
+              <span class="pill pill-warn">À configurer</span>
+            </div>
+            <div class="list-item">
+              <span>Vesting Streamflow</span>
+              <span class="pill pill-warn">En attente</span>
+            </div>
+            <div class="list-item">
+              <span>Metadata Metaplex</span>
+              <span class="pill pill-success">OK</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>CHLS9 — Admin local (aucune transaction envoyée).</div>
+      <div>Connecter ce dashboard à une API ou à des scripts pour automatiser.</div>
+    </footer>
+  </div>
+
+  <script>
+    const targetSol = 20;
+    let raisedSol = 0;
+    let allocations = 0;
+
+    const raisedSolEl = document.getElementById("raised-sol");
+    const raisedAllocEl = document.getElementById("raised-alloc");
+    const progressBarEl = document.getElementById("progress-bar");
+    const progressLabelEl = document.getElementById("progress-label");
+    const salesListEl = document.getElementById("sales-list");
+
+    document.getElementById("btn-add-sale").addEventListener("click", () => {
+      const wallet = document.getElementById("sim-wallet").value || "wallet_simulé";
+      const amount = parseInt(document.getElementById("sim-amount").value || "100000", 10);
+
+      allocations += 1;
+      raisedSol += 0.1;
+
+      const li = document.createElement("div");
+      li.className = "list-item";
+      li.innerHTML = `
+        <span>${wallet.slice(0, 6)}...${wallet.slice(-4)}</span>
+        <span>${amount.toLocaleString("fr-FR")} CHLS9 — 0.1 SOL</span>
+      `;
+      salesListEl.appendChild(li);
+
+      const pct = Math.min(100, (raisedSol / targetSol) * 100);
+      raisedSolEl.textContent = raisedSol.toFixed(1) + " SOL";
+      raisedAllocEl.textContent = allocations + " / 100 allocations";
+      progressBarEl.style.width = pct.toFixed(1) + "%";
+      progressLabelEl.textContent = pct.toFixed(1) + " % atteint";
+    });
+  </script>
+</body>
+</html>
